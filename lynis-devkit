@@ -1,0 +1,155 @@
+#!/bin/sh
+
+#set -e
+set -u
+
+
+CONFIG_FILE="config"
+MODE="do-nothing"
+MY_USER_ID=$(id -u)
+VERBOSE=0
+DEVKIT_RELEASE="20160618"
+DEVKIT_VERSION="1.0.4"
+
+# Lynis variables
+SHOW_WARNINGS_ONLY=0
+LOGTEXT=1
+QUIET=0
+CRONJOB=0
+ECHOCMD="echo"
+YELLOW=""
+NORMAL=""
+SECTION="${YELLOW}"
+LOGFILE="./lynis-dev.log"
+DISPLAY_LANG="$LANG"
+
+if [ "${MY_USER_ID}" = "0" ]; then echo "Do not run this as root"; exit 1; fi
+if [ ! -f "${CONFIG_FILE}" ]; then echo "Could not open config file: ${CONFIG_FILE}"; exit 1; fi
+
+CHECK_VERBOSE=$(awk -F= '/^verbose=/ { print $2 }' ${CONFIG_FILE} | egrep -i "yes") && VERBOSE=1
+LYNIS_PATH=$(awk -F= '/^lynis-directory=/ { print $2 }' ${CONFIG_FILE})
+if [ "${LYNIS_PATH}" = "" -o ! -d "${LYNIS_PATH}" ]; then echo "Could not find the Lynis directory"; exit 1; fi
+
+
+if [ ! -f ${LYNIS_PATH}/lynis ]; then echo "Could not find Lynis (tried: ${LYNIS_PATH}/lynis)"; exit 1; fi
+LYNIS_VERSION=$(grep "PROGRAM_VERSION=" ${LYNIS_PATH}/lynis | awk -F= '{print $2}' | sed 's/"//g')
+
+
+
+echo "======================================================================"
+echo "Lynis directory:        ${LYNIS_PATH}"
+echo "Lynis version:          ${LYNIS_VERSION}"
+echo "Verbose:                $VERBOSE"
+echo "======================================================================"
+
+FUNCTIONS_FILE="${LYNIS_PATH}/include/functions"
+if [ -f "${FUNCTIONS_FILE}" ]; then
+    . ${FUNCTIONS_FILE}
+fi
+
+FUNCTIONS_FILE="./include/devkit-functions"
+if [ -f "${FUNCTIONS_FILE}" ]; then
+    . ${FUNCTIONS_FILE}
+fi
+
+INCLUDE_FILES="./include/parameters "
+for FILE in ${INCLUDE_FILES}; do
+    if [ -f ${FILE} ]; then
+        echo "Including ${FILE}"
+        . ${FILE}
+      else
+        echo "Fatal: could not find ${FILE}"
+        exit 1
+    fi
+done
+
+    case ${MODE} in
+        "build-all")
+            SDKBuildPackageDPKG
+            SDKBuildPackageRPM
+        ;;
+
+        "build-dpkg")
+            SDKBuildPackageDPKG
+        ;;
+
+        "build-rpm")
+            SDKBuildPackageRPM
+        ;;
+
+        "do-nothing")
+
+            echo ""; echo ""
+            echo "Help"
+            echo "============================="
+            echo ""
+            echo "Build Packages"
+            echo "  $0 build dpkg"
+            echo "  $0 build rpm"
+            echo ""
+            echo "Languages"
+            echo "  $0 update language-files"
+            echo ""
+            echo "Quality Testing"
+            echo "  $0 run checks"
+            echo "  $0 run linters"
+            echo "  $0 run unit-tests"
+            echo ""; echo ""
+        ;;
+
+        "run-checks")
+            FILES=$(find ./checks -name "check-*" -type f -print)
+            for FILE in ${FILES}; do
+                . ${FILE}
+                Assert
+                if [ $? -gt 0 ]; then
+                    echo "[X] One or more checks failed"
+                    exit 1
+                fi
+            done
+        ;;
+
+        "run-linters")
+            echo "Running linters"
+            if [ -d ./linters ]; then
+                FILES=$(find ./linters -type f -name "linter-*")
+                for FILE in ${FILES}; do
+                    InsertSection "Linter - ${FILE}"
+                    . ${FILE}
+                done
+            fi
+        ;;
+
+        "run-unit-tests")
+            FILES=$(find ./unit-tests -name "tests-*" -type f -print)
+            for FILE in ${FILES}; do
+                . ${FILE}
+                Assert
+                if [ $? -gt 0 ]; then
+                    echo "[X] One or more unit test failed"
+                    exit 1
+                fi
+            done
+        ;;
+
+        "update-language-files")
+            FILES=$(find ./languages -name "languages-*" -type f -print)
+            for FILE in ${FILES}; do
+                . ${FILE}
+                UpdateLanguageFiles
+            done
+        ;;
+    esac
+
+printf "\n"
+Display --text "End of Program" --result "OK"
+
+#Tests using the double-bracket test operator, e.g. [[ "${SOMEVAR}" == "test value" ]]
+#Arrays, e.g. foo=( 1 2 3 )
+#The declare built-in command
+#Using the function keyword to define a shell function (you should never use this though, even with bash)
+#Brace expansion, e.g. echo {a,b}{c,d}
+
+
+
+# EOF

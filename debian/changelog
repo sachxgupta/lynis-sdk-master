@@ -1,0 +1,95 @@
+lynis (2.4.0-1) utopic; urgency=low
+
+  * Release 2.4.0
+
+ -- Michael Boelen <michael.boelen@cisofy.com>  Thu, 27 Oct 2016 12:48:36 +0200
+
+lynis (2.3.4-2) utopic; urgency=low
+
+  * Release 2.3.4 renewal
+
+ -- Michael Boelen <michael.boelen@cisofy.com>  Thu, 29 Sep 2016 13:09:43 +0200
+
+lynis (2.3.4-1) utopic; urgency=low
+
+  * Release 2.3.4
+
+ -- Michael Boelen <michael.boelen@cisofy.com>  Thu, 29 Sep 2016 12:25:17 +0200
+
+lynis (2.3.3-1) utopic; urgency=low
+
+  * Release 2.3.3
+
+ -- Michael Boelen <michael.boelen@cisofy.com>  Tue, 23 Aug 2016 11:23:01 +0200
+
+lynis (2.3.2-1) utopic; urgency=low
+
+  * Release 2.3.2
+
+ -- Michael Boelen <michael.boelen@cisofy.com>  Tue, 9 Aug 2016 15:30:45 +0200
+
+lynis (2.3.1-1) utopic; urgency=low
+
+  * Release 2.3.1
+
+ -- Michael Boelen <michael.boelen@cisofy.com>  Thu, 14 Jul 2016 20:14:56 +0200
+
+lynis (2.3.0-1) utopic; urgency=low
+
+  * Release 2.3.0
+
+ -- Michael Boelen <michael.boelen@cisofy.com>  Wed, 13 Jul 2016 13:40:03 +0200
+
+lynis (2.2.1-3) utopic; urgency=low
+
+  * Change plugins path to /usr/share/lynis/plugins
+
+ -- Michael Boelen <michael.boelen@cisofy.com>  Fri, 24 Jun 2016 15:39:14 +0200
+
+lynis (2.2.1-2) utopic; urgency=low
+
+  * Bump to reflect new building options
+
+ -- Michael Boelen <michael.boelen@cisofy.com>  Fri, 24 Jun 2016 14:47:02 +0200
+
+lynis (2.2.1-1) utopic; urgency=low
+
+  * Development release 2.2.1
+
+ -- Michael Boelen <michael.boelen@cisofy.com>  Mon, 9 May 2016 15:03:22 +0200
+
+lynis (2.2.0-1) utopic; urgency=low
+
+  * Release 2.2.0
+
+ -- Michael Boelen <michael.boelen@cisofy.com>  Sat, 13 Feb 2016 15:01:10 +0200
+
+lynis (2.1.8-1) utopic; urgency=low
+
+  * Release 2.1.8
+
+ -- Michael Boelen <michael.boelen@cisofy.com>  Sat, 13 Feb 2016 15:01:10 +0200
+
+lynis (1.6.3-3) utopic; urgency=low
+
+  * Release 1.6.3
+
+ -- Michael Boelen <michael.boelen@cisofy.com>  Fri, 24 Oct 2014 10:58:23 +0200
+
+lynis (1.6.2-1) utopic; urgency=low
+
+  * Release 1.6.2
+
+ -- Michael Boelen <michael.boelen@cisofy.com>  Sun, 14 Sep 2014 20:11:00 +0200
+
+lynis (1.6.1-5) utopic; urgency=low
+
+  * Added 755 to Lynis
+
+ -- Michael Boelen <michael.boelen@cisofy.com>  Thu, 11 Sep 2014 21:12:19 +0200
+
+lynis (1.6.1-4) utopic; urgency=low
+
+  * Added lintian-overrides
+
+ -- Michael Boelen <michael.boelen@cisofy.com>  Thu, 11 Sep 2014 19:56:11 +0200

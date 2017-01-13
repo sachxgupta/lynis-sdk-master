@@ -1,0 +1,87 @@
+#!/bin/sh
+
+   # Check number of parameters submitted (at least one is needed)
+    PARAMCOUNT=$#
+    while [ $# -ge 1 ]; do
+        case $1 in
+            # Build
+            build)
+                if [ $# -ge 2 ]; then
+                    case $2 in
+                        "all")
+                            MODE="build-all"
+                        ;;
+                        "dpkg")
+                            MODE="build-dpkg"
+                        ;;
+                        "rpm")
+                            MODE="build-rpm"
+                        ;;
+
+                    esac
+                  else
+                    echo "Error: Need a target to run"
+                    echo " "
+                    echo "Examples:"
+                    echo "$0 build all"
+                    echo "$0 build dpkg"
+                    echo "$0 build rpm"
+                    exit 1
+                fi
+            ;;
+
+            # Helpers first
+            run)
+                if [ $# -ge 2 ]; then
+                    case $2 in
+                        "checks")
+                            MODE="run-checks"
+                        ;;
+                        "linters")
+                            MODE="run-linters"
+                        ;;
+                        "unit-tests")
+                            MODE="run-unit-tests"
+                        ;;
+                        *)
+                            echo "Unknown 'run' command: $2"
+                            exit 1
+                        ;;
+                    esac
+                  else
+                    echo "Error: Need a target to run"
+                    echo " "
+                    echo "Examples:"
+                    echo "$0 run checks"
+                    echo "$0 run linters"
+                    echo "$0 run tests"
+                    exit 1
+                fi
+            ;;
+
+            # Helpers first
+            update)
+                if [ $# -ge 2 ]; then
+                    case $2 in
+                        "language-files")
+                            MODE="update-language-files"
+                        ;;
+                        *)
+                            echo "Unknown 'update' command: $2"
+                            exit 1
+                        ;;
+                    esac
+                  else
+                    echo "Error: Need a target to run"
+                    echo " "
+                    echo "Examples:"
+                    echo "$0 update language-files"
+                    exit 1
+                fi
+            ;;
+
+
+        esac
+        shift
+    done
+
